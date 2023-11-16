@@ -47,14 +47,17 @@ const CustomRequest = ({UserWithRequests}) => {
     const handleDeleteGame = async () => {
         const activeGameId = await checkUserInGamesAndGetId(UserWithRequests);
         if (activeGameId) {
-            deleteGame(activeGameId, {
-                onSuccess: () => {
-                    console.log('Game deleted successfully');
-                    // Additional logic if needed after deleting the game
-                },
-                onError: (error) => {
-                    console.error('Failed to delete the game', error);
-                }
+            return new Promise((resolve, reject) => {
+                deleteGame(activeGameId, {
+                    onSuccess: () => {
+                        console.log('Game deleted successfully');
+                        resolve();
+                    },
+                    onError: (error) => {
+                        console.error('Failed to delete the game', error);
+                        reject(error);
+                    }
+                });
             });
         }
     };
@@ -66,17 +69,23 @@ const CustomRequest = ({UserWithRequests}) => {
                     key={request.id}
                     InviteText={inviteGameText}
                     InvitingPlayer={request.white?.username} // Assuming 'whiteId' is the username of the inviting player
-                    acceptButton={() => {
-                        acceptMutation.mutate(
-                            { requestId: request.id, blackUsername: UserWithRequests },
-                            {
-                                onSuccess: () => {
-                                    handleDeleteGame();
-                                    navigate(`/lobby/${request.game.id}`)
-                                },
-                                onError: (error) => toast.error("Lobby full, closed or game started")
-                            }
-                        );
+                    acceptButton={async () => {
+                        try {
+                            await handleDeleteGame(); // Ensure this completes first
+                            acceptMutation.mutate(
+                                { requestId: request.id, blackUsername: UserWithRequests },
+                                {
+                                    onSuccess: () => {
+                                        navigate(`/lobby/${request.game.id}`);
+                                    },
+                                    onError: (error) => {
+                                        toast.error("Lobby full, closed or game started");
+                                    }
+                                }
+                            );
+                        } catch (error) {
+                            toast.error("Error handling the game deletion");
+                        }
                     }}
                     declineButton={() => declineMutation.mutate(
                         {requestId: request.id, blackUsername: UserWithRequests },

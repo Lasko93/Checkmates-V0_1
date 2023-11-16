@@ -17,7 +17,7 @@ import CustomRequest from "../../components/RequestComponent/CustomRequestCompon
 
 function HomePage() {
 
-
+    localStorage.setItem("userName","BumsDums244")
     const username = localStorage.getItem('userName');
 
     // State for toggling popups

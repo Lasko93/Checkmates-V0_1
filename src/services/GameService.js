@@ -41,7 +41,10 @@ const createGame = async ({ username, gameName, timer }) => {
 };
 //remove Black from game
 const updateGameRemoveBlack = async (gameId) => {
-    const response = await fetch(`${config.apiUrl}/game/update-game-remove-black/${gameId}`, { method: 'PATCH' });
+    const response = await fetch(`${config.apiUrl}/game/update-game-remove-black/${gameId}`, {
+        method: 'PUT'
+    }
+    );
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
@@ -89,7 +92,7 @@ export const useFetchGames = () => useQuery('games', fetchGames);
 
 // Custom hook to use the fetchGameById function
 export const useFetchGameById = (gameId) => useQuery(
-    ['game', gameId],
+    ['games', gameId],
     () => fetchGameById(gameId),
 
 );

@@ -18,16 +18,16 @@ import {toast, useToast} from "react-toastify";
 import {useQueryClient} from "react-query";
 
 function GameLobby() {
+    const currentUser = localStorage.getItem('userName');
     const queryClient = useQueryClient();
     const navigate = useNavigate();
     const [SearchPlayerPopup, setSearchPlayerPopup] = useState(false);
     const { gameId } = useParams();
-    const location = useLocation();
     const [MatchTimer, setMatchTimer] = useState("05");
     const { mutate: deleteGame } = useDeleteGame();
     const { mutate: removeBlackPlayer } = useUpdateGameRemoveBlack();
 
-    const currentUser = localStorage.getItem('userName'); // or however you get the current user's name
+
     const { data: game, isLoading: isLoadingGame, isError: isErrorGame } = useFetchGameById(gameId);
     const isCurrentUserBlack = game && game.black && game.black.username === currentUser;
     const isCurrentUserWhite = game && game.white && game.white.username === currentUser;
@@ -88,6 +88,7 @@ function GameLobby() {
 
 
     const handleLeaveAsBlack = () => {
+        console.log('Attempting to remove black player from game', gameId);
         removeBlackPlayer(gameId, {
             onSuccess: () => {
                 // Handle successful removal
