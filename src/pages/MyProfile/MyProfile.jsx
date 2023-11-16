@@ -4,11 +4,9 @@ import PlayIcon from "../../assets/images/Play_Icon.svg";
 import FriendsIcon from "../../assets/images/friends_icon.svg";
 import "../../components/Buttons/ButtonComponent.css";
 import { useFetchUser} from "../../services/UserService";
-import {useParams} from "react-router-dom";
 import {useChangeFriendlistVisibility} from "../../services/FriendService";
 import {useQueryClient} from "react-query";
 import TestProfilePicture from "../../assets/images/PlayerIcon.svg";
-import FriendlistComponent from "../../components/FriendlistComponent/FriendlistComponent";
 import {useFetchProfilePicture} from "../../services/UserService";
 
 
@@ -70,7 +68,7 @@ const MyProfile = () => {
                 <br/>
                 <p><img className="FriendsIcon" src= {FriendsIcon} alt="FriendsIcon"/>
                     <br/>
-                    {userData.userName}'s friends
+                    Your privacy settings
 
                      </p>
                 <button className="GeneralButton" onClick={toggleFriendListVisibility}
@@ -78,7 +76,6 @@ const MyProfile = () => {
                     {isListPublic ? 'Public Friendlist' : 'Secret Friendlist'}
                 </button>
                 <br/>
-                {isListPublic && <FriendlistComponent userName={userName}/>}
 
             </div>
         </div>

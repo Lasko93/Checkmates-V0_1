@@ -33,6 +33,8 @@ const FriendProfile = () => {
         return <div>Error loading profile or no user data available.</div>;
     }
 
+// Füge eine Abhängigkeit von userData.friendlistVisible hinzu, um zu entscheiden, ob die Liste gerendert werden soll.
+    const friendListShouldBeVisible = userData.friendlistVisible;
 
     return (
         <div className='profile'>
@@ -51,13 +53,17 @@ const FriendProfile = () => {
                 <p><img className="playIcon" src= {PlayIcon} alt="PlayIcon"/><br/>
                     {userData.score} Points </p>
                 <br/>
-                {userData.friendlistVisible && (
+                {friendListShouldBeVisible ? (
                     <div>
                         <img className="FriendsIcon" src={FriendsIcon} alt="FriendsIcon"/>
                         <h2>{userName}'s friends</h2>
                         <FriendlistComponent userName={userName}/>
                     </div>
-                    )}
+                    ):(
+                    <div>
+                        <p>This user's friend list is private.</p>
+                    </div>
+                )}
             </div>
         </div>
     );
