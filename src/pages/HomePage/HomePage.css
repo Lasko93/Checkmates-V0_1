@@ -1,0 +1,28 @@
+.ChessPositioner{
+    position: absolute;
+    left: 20%;
+    top: 15%;
+    right: 45%;
+
+}
+
+.HomePageTitle {
+    font-size: 1vw;
+    text-align: center;
+    position: absolute;
+    left: 57%;
+    right: 5%;
+    top: 17%;
+    bottom: 15%;
+    width: 42%;
+    height: 15%;
+}
+
+.StartButtons {
+    position: absolute;
+    right: 5%;
+    top: 40%;
+    bottom: 15%;
+    width: 30%;
+    height: 20%;
+}
